@@ -4,6 +4,37 @@
 ```Bash
 python3 final_fix.py
 ```
+📊 Architecture & Features (系统架构与核心特性)
+
+<div align="center">
+<table>
+<tr>
+<td align="center">🎯 <b>Dual-Tier Themes</b>
+
+
+
+Canonical (固定分类) + Open (自由形态)</td>
+<td align="center">🧠 <b>Smart SEC Parsing</b>
+
+
+
+基于 Token 预算的动态截断分配</td>
+<td align="center">🤖 <b>3-Layer LLM Engine</b>
+
+
+
+主题发现 + TF-IDF 打分 + 市场叙事</td>
+<td align="center">🗄️ <b>Unified Output</b>
+
+
+
+开箱即用的 SQLite 统一查询层</td>
+</tr>
+</table>
+</div>
+
+🏗️ System Flow (系统处理流)
+
 flowchart TB
     %% Definitions
     classDef core fill:#f8fafc,stroke:#94a3b8,stroke-width:1px,color:#0f172a,rx:6px
@@ -61,3 +92,40 @@ flowchart TB
     CT --> DB
     OT --> DB
     NT --> DB
+
+
+🔍 Deep Dive: The 3-Layer Extraction Engine
+
+该项目最核心的亮点在于其多层主题提炼机制，确保提取出的主题既标准又具有股票独特性：
+
+Layer
+
+Component
+
+Mechanism (运行机制)
+
+Outcome (产出结果)
+
+Layer 1
+
+LLM Theme Discovery
+
+智能分配 100K Tokens 预算读取 SEC 报告提取主题。通过 Alias lookup (别名映射) 和 Cosine Similarity (向量相似度 ≥ 0.60) 将其归一化。
+
+归入 Canonical Themes（如: Cloud Computing）。未匹配项降级为 Open Themes。
+
+Layer 2
+
+BM25 Corpus Scoring
+
+建立所有 SEC 文件的全局 TF-IDF 矩阵。对 Open Themes 进行“词频-逆文档频率”打分，过滤掉 "Cloud computing" 等烂大街词汇。
+
+产出高价值的 Open Themes（如: Peptide Vaccine），解决长尾主题问题。
+
+Layer 3
+
+Market Narrative
+
+使用独立 LLM 处理汇总后的新闻头条和社交情绪（StockTwits），提取外界对该公司的“贴标签”行为。
+
+产出 Narrative Themes（如: Meme stock, AI Winner, Tariff Risk）。
